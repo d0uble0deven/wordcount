@@ -36,7 +36,8 @@ function App() {
       <h1> Welcome to WordCount </h1>
       <form onSubmit={readTime}>
         <textarea className="text_field" type="text" {...bind} />
-        <input type="submit" value="submit" />
+        <br />
+        <input className="submit" type="submit" value="submit" />
       </form>
 
     </div>
