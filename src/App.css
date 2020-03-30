@@ -2,6 +2,9 @@
   text-align: center;
 }
 
+h1 {
+  text-align: left;
+}
 
 .text_field {
   min-width: 100%;
