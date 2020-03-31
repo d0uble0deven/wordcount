@@ -40,16 +40,21 @@ function App() {
   // once button is clicked, update state to data computed  
 
   return (
-    <div className="App">
-      <h1> Welcome to WordCount </h1>
-      <span>Number of words: {wordsInP} Time to read: {timeToRead} Minutes: {minutesToRead}</span>
-      <form onSubmit={readTime}>
-        <textarea className="text_field" type="text" {...bind} />
-        <br />
-        <input className="submit" type="submit" value="submit" />
-      </form>
+    <div>
+      <div className="background">
+        <div className="App">
+          <h1> Welcome to WordCount </h1>
+          <span> <a>Number of words: {wordsInP}</a> <a>Time to read: {timeToRead}</a> <a>Minutes: {minutesToRead}</a></span>
+          <hr />
+          <form onSubmit={readTime}>
+            <textarea className="text_field" type="text" {...bind} />
+            <br />
+            <input className="submit" type="submit" value="SUBMIT" />
+          </form>
 
-    </div>
+        </div>
+      </div>
+    </div >
   );
 }
 
