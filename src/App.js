@@ -4,45 +4,31 @@ import { useInput } from './Hooks/InputHook';
 
 function App() {
   const { value, bind, reset } = useInput('');
-  let [wordsInP, setWordsInP] = useState('');
+  let [wordCount, setWordCount] = useState('');
   let [minutesToRead, setMinutesToRead] = useState(0);
-  // let words = [];
-  // let time = 0;
-  // let minutes = 0;
+  let [minutesToSpeak, setMinutesToSpeak] = useState(0);
 
-  const readTime = (event, str = value) => {
+
+  const calculate = (event, str = value) => {
     event.preventDefault();
-    // setCount(count++)
-    console.log('readTime is firing');
     // count number of words
     let words = [];
     // iterate through string and store words as separate strings in array
     for (let word of str.split(' ')) {
       words.push(word);
     }
-    console.log('words found in str: ' + words);
-    console.log('number of words: ' + words.length);
-    setWordsInP(words.length);
+    setWordCount(words.length);
     // divide by average reading time
-    const time = words.length / 250;
-    console.log('time: ' + time + ' minutes');
+    const readTime = words.length / 250;
     // returns number as minutes
-    let minutes = Math.ceil(time);
+    let readMinutes = Math.ceil(readTime);
     // return minutes
-    console.log('minutes: ' + minutes);
-    setMinutesToRead(minutes);
+    setMinutesToRead(readMinutes);
+
+    const speakTime = words.length / 130;
+    let speakminutes = Math.ceil(speakTime);
+    setMinutesToSpeak(speakminutes);
   };
-
-
-  // get numbers to populate from variables
-  // set up a react hook,
-  // research getters and setters,
-  // set initial amounts to ' '
-  // once button is clicked, update state to data computed  
-
-  // set is a function that updates the first in the array
-  // on submit setWhatever({words: words})
-  // <button onClick={() => setBatteryData({level: batteryData.level + .01, charging: false})}>
 
 
   return (
@@ -51,13 +37,12 @@ function App() {
         <div className="App">
           <h1> Welcome to WordCount </h1>
           <span>
-            {/* <a>Count: {count}</a> */}
-            <a>Number of words: {wordsInP}</a>
-            {/* <a>Time to read: {timeToRead}</a>  */}
+            <a>Number of words: {wordCount}</a>
             <a>Time to read: {minutesToRead} minute(s)</a>
+            <a>Time to speak: {minutesToSpeak} minute(s)</a>
           </span>
           <hr />
-          <form onSubmit={readTime}>
+          <form onSubmit={calculate}>
             <textarea className="text_field" type="text" {...bind} />
             <br />
             <input className="submit" type="submit" value="SUBMIT" />
@@ -65,7 +50,7 @@ function App() {
 
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 
