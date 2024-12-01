@@ -1,41 +1,37 @@
-import React, { useState } from 'react';
-import './App.css';
-import { useInput } from './Hooks/InputHook';
+import React, { useState } from "react";
+import "./App.css";
+import { useInput } from "./hooks/InputHook";
+import StatsDisplay from "./components/StatsDisplay";
+import TextInputForm from "./components/TextInputForm";
 
 function App() {
-  const { value, bind, reset } = useInput('');
-  let [wordCount, setWordCount] = useState(0);
-  let [minutesToRead, setMinutesToRead] = useState(0);
-  let [minutesToSpeak, setMinutesToSpeak] = useState(0);
+  const { value, bind, reset } = useInput("");
+  const [wordCount, setWordCount] = useState(0);
+  const [minutesToRead, setMinutesToRead] = useState(0);
+  const [minutesToSpeak, setMinutesToSpeak] = useState(0);
 
-
-  const calculate = (event, str = value) => {
+  const calculate = (event) => {
     event.preventDefault();
-    // count number of words
-    if (str.length === 0) {
-      setWordCount(0);
-      setMinutesToRead(0);
-      setMinutesToSpeak(0);
-      return
+    if (value.length === 0) {
+      resetStats();
+      return;
     }
-    let words = [];
-    // iterate through string and store words as separate strings in array
-    for (let word of str.split(' ')) {
-      words.push(word);
-    }
+    const words = value.split(" ").filter((word) => word.length > 0);
     setWordCount(words.length);
-    // divide by average reading time
-    const readTime = words.length / 250;
-    // returns number as minutes
-    let readMinutes = Math.ceil(readTime);
-    // return minutes
-    setMinutesToRead(readMinutes);
-
-    const speakTime = words.length / 130;
-    let speakminutes = Math.ceil(speakTime);
-    setMinutesToSpeak(speakminutes);
+    setMinutesToRead(Math.ceil(words.length / 250));
+    setMinutesToSpeak(Math.ceil(words.length / 130));
   };
 
+  const resetStats = () => {
+    setWordCount(0);
+    setMinutesToRead(0);
+    setMinutesToSpeak(0);
+  };
+
+  const handleClear = () => {
+    reset();
+    resetStats();
+  };
 
   return (
     <div>
@@ -43,22 +39,31 @@ function App() {
         <div className="background">
           <br />
           <div className="plaque">
-
-            <h1> Welcome to
-            <br />
-              <a id="title">WordCount</a> </h1>
+            <h1>
+              Welcome to
+              <br />
+              <a id="title">WordCount</a>
+            </h1>
             <span>
-              <a>Number of words: {wordCount}</a>
-              <a>Time to read: {minutesToRead} minute(s)</a>
-              <a>Time to speak: {minutesToSpeak} minute(s)</a>
+              <StatsDisplay label="Number of words" value={wordCount} />
+              <StatsDisplay
+                label="Time to read"
+                value={minutesToRead}
+                unit="minute(s)"
+              />
+              <StatsDisplay
+                label="Time to speak"
+                value={minutesToSpeak}
+                unit="minute(s)"
+              />
             </span>
             <hr />
-            <form onSubmit={calculate}>
-              <textarea className="text_field" type="text" {...bind} />
-              <br />
-              <input className="submit" type="submit" value="SUBMIT" />
-            </form>
-
+            <TextInputForm
+              value={value}
+              onChange={bind.onChange}
+              onSubmit={calculate}
+              onClear={handleClear}
+            />
           </div>
         </div>
       </div>
